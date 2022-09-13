@@ -1,4 +1,12 @@
 var selectedRow = null;
+var selectedRow1 = null;
+
+var totalSalaire = 0;
+var totalDepense = 0;
+var restant = 0;
+displayTotalSalaire();
+displayTotalDepense();
+totatRestant();
 
 function onFormSubmit() {
   var formData = readFormData();
@@ -18,6 +26,7 @@ function insertNewRecord(data) {
   var table = document
     .getElementById("salaire")
     .getElementsByTagName("tbody")[0];
+
   var newRow = table.insertRow(table.length);
   cell1 = newRow.insertCell(0);
   cell1.innerHTML = data.titre;
@@ -26,6 +35,15 @@ function insertNewRecord(data) {
   cell2 = newRow.insertCell(2);
   cell2.innerHTML = `<a onClick="onEdit(this)">Edit</a>
   <a onClick="onDelete(this)">Delete</a>`;
+
+  totalSalaire = totalSalaire + parseFloat(data.montant);
+  displayTotalSalaire();
+  restant = totalSalaire - totalDepense;
+  totatRestant();
+}
+function displayTotalSalaire() {
+  document.getElementById("totalSalaire").innerHTML =
+    "<h1>totalSalaire : " + totalSalaire + " </h1>";
 }
 
 function onEdit(td) {
@@ -48,12 +66,17 @@ function onDelete(td) {
 function resetForm() {
   document.getElementById("titre").value = "";
   document.getElementById("montant").value = "";
+  document.getElementById("titre1").value = "";
+  document.getElementById("montant1").value = "";
   selectedRow = null;
+  selectedRow1 = null;
 }
+
+/////////////////FORMULAIRE 2////////
 
 function envoyer() {
   var formDatad = readFormData1();
-  if (selectedRow == null) enregistrement1(formDatad);
+  if (selectedRow1 == null) enregistrement1(formDatad);
   else updateRecord(formDatad);
   resetForm();
 }
@@ -63,6 +86,11 @@ function readFormData1() {
   formDatad["titre1"] = document.getElementById("titre1").value;
   formDatad["montant1"] = document.getElementById("montant1").value;
   return formDatad;
+}
+
+function displayTotalDepense() {
+  document.getElementById("totalDepense").innerHTML =
+    "<h1>totalDepense : " + totalDepense + " </h1>";
 }
 
 function enregistrement1(data) {
@@ -77,6 +105,11 @@ function enregistrement1(data) {
   cell2 = newRow.insertCell(2);
   cell2.innerHTML = `<a onClick="onEdit(this)">Edit</a>
   <a onClick="onDelete(this)">Delete</a>`;
+
+  totalDepense = totalDepense + parseFloat(data.montant1);
+  displayTotalDepense();
+  restant = totalSalaire - totalDepense;
+  totatRestant();
 }
 function onEdit(td) {
   selectedRow = td.parentElement.parentElement;
@@ -94,4 +127,9 @@ function onDelete(td) {
     document.getElementById("depense").deleteRow(row.rowIndex);
     resetForm();
   }
+}
+
+function totatRestant() {
+  document.getElementById("restant").innerHTML =
+    "<h1>totalRestant : " + restant + " </h1>";
 }
