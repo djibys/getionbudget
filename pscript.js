@@ -33,8 +33,18 @@ function insertNewRecord(data) {
   cell2 = newRow.insertCell(1);
   cell2.innerHTML = data.montant;
   cell2 = newRow.insertCell(2);
-  cell2.innerHTML = `<a onClick="onEdit(this)">Edit</a>
-  <a onClick="onDelete(this)">Delete</a>`;
+  cell2.innerHTML = `
+  <a onClick="onEdit(this)">modifier</a>
+
+ 
+  <a onClick="onDelete(this)">Delete</a>
+`;
+  // cell2.innerHTML = `<button  type="button" class="btn btn-danger">
+  //   <a onClick="onEdit(this)">modifier</a>
+  // </button>
+  // <button type="button" class="btn btn-primary">
+  //   <a onClick="onDelete(this)">Delete</a>
+  // </button>`;
 
   totalSalaire = totalSalaire + parseFloat(data.montant);
   displayTotalSalaire();
@@ -77,7 +87,7 @@ function resetForm() {
 function envoyer() {
   var formDatad = readFormData1();
   if (selectedRow1 == null) enregistrement1(formDatad);
-  else updateRecord(formDatad);
+  else updateRecord1(formDatad);
   resetForm();
 }
 
@@ -103,25 +113,29 @@ function enregistrement1(data) {
   cell2 = newRow.insertCell(1);
   cell2.innerHTML = data.montant1;
   cell2 = newRow.insertCell(2);
-  cell2.innerHTML = `<a onClick="onEdit(this)">Edit</a>
-  <a onClick="onDelete(this)">Delete</a>`;
+  cell2.innerHTML = `
+  <a onClick="onEdit1(this)">modifier</a>
+
+ 
+  <a onClick="onDelete1(this)">Delete</a>
+`;
 
   totalDepense = totalDepense + parseFloat(data.montant1);
   displayTotalDepense();
   restant = totalSalaire - totalDepense;
   totatRestant();
 }
-function onEdit(td) {
-  selectedRow = td.parentElement.parentElement;
-  document.getElementById("titre1").value = selectedRow.cells[0].innerHTML;
-  document.getElementById("montant1").value = selectedRow.cells[1].innerHTML;
+function onEdit1(td) {
+  selectedRow1 = td.parentElement.parentElement;
+  document.getElementById("titre1").value = selectedRow1.cells[0].innerHTML;
+  document.getElementById("montant1").value = selectedRow1.cells[1].innerHTML;
 }
-function updateRecord(formData) {
-  selectedRow.cells[0].innerHTML = formData.titre1;
-  selectedRow.cells[1].innerHTML = formData.montant1;
+function updateRecord1(formDatad) {
+  selectedRow1.cells[0].innerHTML = formDatad.titre1;
+  selectedRow1.cells[1].innerHTML = formDatad.montant1;
 }
 
-function onDelete(td) {
+function onDelete1(td) {
   if (confirm("Are you sure to delete this record ?")) {
     row = td.parentElement.parentElement;
     document.getElementById("depense").deleteRow(row.rowIndex);
